@@ -1,3 +1,7 @@
+A intenção original do desafio era enviar para um backend (em Node) os inputs fornecidos para Título, Autor e Edição do livro a 
+partir do index.html, simulando assim a interação entre cliente-servidor. Essa ideia foi abandonada devido a possíveis problemas
+de dependências. 
+
 Usei a biblioteca thenby (incluída junto ao código) para realizar a lógica de ordenação.
 
 A sintaxe de escolha de ordens no arquivo JSON é:
