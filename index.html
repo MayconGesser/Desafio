@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8"/>
+<head>
+	<script type="text/javascript" src="Livro.js"></script>
+	<script type="text/javascript" src="parametros.js"></script>
+	<script type="text/javascript" src="ServicoOrdenacao.js"></script>
+	<script type="text/javascript" src="thenby.js"></script>
+	<script type="text/javascript">
+
+		var livros = [];
+		var conteudo_arquivo, input_titulo, input_autor, input_edicao;
+
+		window.onload = function(){
+			console.log(livros);
+			var bt = document.getElementById("bt");
+			var btOrd = document.getElementById("btOrd");
+			var btLimpar = document.getElementById('btLimpar');
+			input_titulo = document.getElementById('titulo');
+			input_autor = document.getElementById('autor');
+			input_edicao = document.getElementById('edicao');
+
+			bt.addEventListener("click",function(){
+				var validos = validarInputs();
+				if(!validos){
+					alert('Campos obrigatórios não-preenchidos.');
+					return;
+				}
+				var titulo = document.getElementById('titulo').value;
+				var autor = document.getElementById('autor').value;
+				var edicao = document.getElementById('edicao').value;
+				adicionarLivro(titulo,autor,edicao);
+			});
+
+			btOrd.addEventListener("click", function(){
+				var ordenados = servicoOrdenacao.ordenar(livros,conteudo_arquivo);
+				console.log(ordenados);
+				document.getElementById('res_ord').innerHTML = imprimirLivros(ordenados);
+			});
+
+			btLimpar.addEventListener("click", function(){
+				livros = [];
+			});
+
+		document.getElementById('file-input').addEventListener('change', lerArquivo, false);
+		}
+	</script>
+</head>
+<body>
+	<div id="dados">
+		<p>Título</p><br>
+		<input type="text" id="titulo" required/><br><br>
+		<p>Autor</p>
+		<input type="text" id="autor" required/><br><br>
+		<p>Edição</p>
+		<input type="number" id="edicao" required/><br><br>
+		<button type="button" id="bt">Criar</button>
+		<button type="button" id="btLimpar">Limpar livros criados</button><br><br>
+		<button type="button" id="btOrd">Ordenar</button><br><br>
+		<input type="file" id="file-input" >
+	</div>
+	<br><br>
+	<div id="resultados">				
+	<p id="res_ord"></p>
+	</div>
+</body>
+<script type="text/javascript">
+	function adicionarLivro(titulo, autor, edicao){
+		var livro = new Livro(titulo,autor,edicao);
+		livros.push(livro);
+		input_titulo.value = '';
+		input_autor.value = '';
+		input_edicao.value = '';	
+	}
+
+	function validarInputs(){
+		var retorno = true;
+		var inputs = document.getElementById('dados').getElementsByTagName('input');
+		for(var i = 0; i<inputs.length; i++){
+			if(inputs[i].value == '' && inputs[i].hasAttribute('required')){
+				//nao precisava desse and, todos os inputs sao required, mas por via das duvidas...
+				retorno = false;
+			}
+		  }
+
+			return retorno;
+		}
+	
+	function imprimirLivros(arr){
+		var retorno = '';
+
+		for(var i = 0; i<arr.length; i++){
+			var livro = arr[i];
+			retorno += JSON.stringify(livro,null,2);
+			retorno += '\n';
+		}
+
+		return retorno;
+	}
+
+	function lerArquivo(e) {
+	  var arq = e.target.files[0];
+	  if (!arq) {
+	    return;
+	  }
+	  var leitor = new FileReader();
+	  leitor.onload = function(e) {
+	    conteudo_arquivo = JSON.parse(e.target.result);	    
+	  };
+	  leitor.readAsText(arq);
+	}
+</script>
+</html>
