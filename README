@@ -1,0 +1,17 @@
+Usei a biblioteca thenby (incluída junto ao código) para realizar a lógica de ordenação.
+
+A sintaxe de escolha de ordens no arquivo JSON é:
+
+"Ta" : Título Ascendente
+"Td" : Título Descendente
+"Aa" : Autor Ascendente
+"Ad" : Autor Descendente
+"Ea" : Edição Ascendente
+"Ed" : Edição Descendente
+
+Para ordenar Múltiplos:
+XaYbZc
+
+A razão pela qual é necessário suprir um arquivo de configuração à página é porque 
+não há como o Javascript fazer operações de IO como outras linguagens
+(abrir, ler e escrever em arquivos). Isso é devido a uma medida de segurança dos próprios browsers. 
